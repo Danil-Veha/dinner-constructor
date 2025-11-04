@@ -14,7 +14,7 @@ public class Main {
 
         while (true) {
             printMenu();
-            String command = scanner.nextLine();
+            String command = scanner.nextLine().trim();
 
             switch (command) {
                 case "1":
@@ -24,6 +24,7 @@ public class Main {
                     generateDishCombo();
                     break;
                 case "3":
+                    System.out.println("Выход");
                     return;
                 default:
                     System.out.println("Такой команды нет! Попробуйте снова.");
@@ -40,9 +41,9 @@ public class Main {
 
     private static void addNewDish() {
         System.out.println("Введите тип блюда:");
-        String dishType = scanner.nextLine();
+        String dishType = scanner.nextLine().trim();
         System.out.println("Введите название блюда:");
-        String dishName = scanner.nextLine();
+        String dishName = scanner.nextLine().trim();
 
         if (dishType.isEmpty() || dishName.isEmpty()) {
             System.out.println("Ошибка: тип и название не могут быть пустыми!");
@@ -64,21 +65,26 @@ public class Main {
 
         System.out.println("Введите количество наборов, которые нужно сгенерировать:");
         int numberOfCombos = scanner.nextInt();
+            if (numberOfCombos <= 0){
+                System.out.println("Колличество наборов не может быть отрицательным или нулем !!!");
+                return;
+            }
         scanner.nextLine();
 
         System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). Для завершения ввода введите пустую строку");
-        String nextItem = scanner.nextLine();
+        String nextItem = scanner.nextLine().trim();
 
         ArrayList<String> selectedTypes = new ArrayList<>();
+        int dishCount;
         while (!nextItem.isEmpty()) {
             if (dinnerConstructor.checkType(nextItem)) {
                 selectedTypes.add(nextItem);
-                int dishCount = dinnerConstructor.getDishCountByType(nextItem);
+                dishCount = dinnerConstructor.getDishCountByType(nextItem);
                 System.out.println("Тип '" + nextItem + "' добавлен! (доступно блюд: " + dishCount + ")");
             } else {
                 System.out.println("Такой тип блюд мы еще не умеем готовить. Попробуйте что-нибудь другое!");
             }
-            nextItem = scanner.nextLine();
+            nextItem = scanner.nextLine().trim();
         }
 
         if (selectedTypes.isEmpty()) {
